@@ -1,0 +1,27 @@
+{
+	"name": "Name",
+	"type": "record",
+	"namespace": "bri.avro.kafka.flatten.dto",
+	"fields": [
+		{
+			"name": "firstname",
+			"type": "string",
+			"doc": "First Name of the client"
+		},
+		{
+			"name": "lastname",
+			"type": "string",
+			"doc": "Last Name of the client"
+		},
+		{
+			"name": "middlename",
+			"type": ["null","string"],
+			"doc": "Middle name of the client"
+		},
+		{
+			"name": "shortname",
+			"type": ["null","string"],
+			"doc": "Short name of the client"
+		}
+	]
+}

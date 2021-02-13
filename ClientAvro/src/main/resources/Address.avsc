@@ -1,0 +1,31 @@
+{
+	"name": "Address",
+	"type": "record",
+	"namespace": "bri.avro.kafka.flatten.dto",
+	"fields": [
+        {
+            "name": "type",
+            "type": "string",
+            "doc": "Primary, Secondary,..."
+        },
+            {
+			"name": "address",
+			"type": "string"
+		} ,
+		{
+			"name": "postalCode",
+			"type": "string"
+		},
+		{
+			"name": "postalArea",
+			"type": "string"
+		},
+		{
+            "name": "country",
+            "type": [
+                "null",
+                "string"
+            ]
+        }
+	]
+}

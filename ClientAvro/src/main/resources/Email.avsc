@@ -1,0 +1,17 @@
+{
+	"name": "Email",
+    "type": "record",
+	"namespace": "bri.avro.kafka.flatten.dto",
+	"fields": [
+			{
+				"name": "type",
+				"type": "string",
+				"doc": "Primary, Secondary"
+			},
+			{
+				"name": "email",
+				"type": "string",
+				"doc": "Client email address"
+			}
+    ]
+}

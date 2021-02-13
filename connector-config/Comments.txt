@@ -1,0 +1,47 @@
+# Comments on connector config
+
+1. Name of the connector used
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector_Flatten",
+2. Number of tasks. It can increased eventually
+    "tasks.max": "1",
+3. Topic used
+    "topics": "client-state",
+4. Postgress specific configuration. Present in the docker-compose
+    "connection.url": "jdbc:postgresql://postgres:5432/postgres",
+    "connection.user": "postgres",
+    "connection.password": "postgres",
+5. Properties form base connector: https://docs.confluent.io/kafka-connect-jdbc/current/sink-connector/sink_config_options.html
+    "dialect.name": "PostgreSqlDatabaseDialect",
+    "auto.create": "true",
+    "auto.evolve":"true",
+6. The key sent to the topic is a String and the value is a record in avro format
+    "key.converter":"org.apache.kafka.connect.storage.StringConverter",
+    "value.converter.schemas.enable": "false",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+7. Apply SMT. It is removed the field ´id present in the Client record, because it contains the same value as they key.
+    <p/> It is renamed here the field ´status´
+   ````
+    "transforms": "ReplaceField,RenameField",
+    "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.ReplaceField.blacklist": "id",
+    "transforms.RenameField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.RenameField.renames": "status:client_status",
+  ```
+8. Use of flatten connector. Automatically flatten arrays&maps to separate tables.
+    "flatten": "true",
+9. In order to propagate values from key&values to destination tables
+    "pk.mode": "flatten",
+    "flatten.pk_propagate_value_fields": "client.unusedid",
+10. Primary keys to created tables
+    "pk.fields": "client.email.email.type,client.address.address.type,client.pet.pet,root.key",
+
+11. Renamed tables & column tables
+    "flatten.rename_tables": "client-state_client:t_client, client-state_client_pet:t_client_pet,client-state_client_email:t_client_email, client-state_client_address:t_client_address",
+    "flatten.rename_fields":"client.pet.pet:pet,client.address.address.address:address, client.address.address.type:address_type,client.email.email.type:email_type,root.key:client_id, client.unusedid:not_in_use_id",
+12. In case wanted to save also kafka info(partition, topics,..)
+    "flatten.coordinates": "false",
+13. Apply uppercase to column names and table names
+    "flatten.uppercase": "true",
+14. Insert&Update(*)
+    "insert.mode": "upsert"

@@ -1,0 +1,57 @@
+{
+  "type": "record",
+  "name": "Client",
+  "namespace": "bri.avro.kafka.flatten.dto",
+  "doc": "Schema for bri.avro.kafka.playground.dto.client",
+  "fields": [
+    {
+      "name": "status",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+     {
+      "name": "unusedid",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    },
+    {
+      "name": "pet",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "default": []
+    },
+    {
+      "name": "name",
+      "type": "bri.avro.kafka.flatten.dto.Name"
+    },
+    {
+      "name": "address",
+      "doc": "Client address(es)",
+      "type": {
+        "type": "array",
+        "items": "Address"
+      },
+      "default": []
+    },
+    {
+      "name": "Email",
+      "doc": "Client email(s)",
+      "type": {
+        "type": "array",
+        "items": "Email"
+      },
+      "default": []
+    }
+  ]
+}

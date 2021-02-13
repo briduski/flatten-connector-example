@@ -1,0 +1,32 @@
+{
+  "name": "CLientFlattenSinkv1",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector_Flatten",
+    "tasks.max": "1",
+    "topics": "client-state",
+    "connection.url": "jdbc:postgresql://postgres:5432/postgres",
+    "connection.user": "postgres",
+    "connection.password": "postgres",
+    "key.converter":"org.apache.kafka.connect.storage.StringConverter",
+    "value.converter.schemas.enable": "false",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+    "dialect.name": "PostgreSqlDatabaseDialect",
+    "auto.create": "true",
+    "auto.evolve":"true",
+    "flatten": "true",
+    "transforms": "ReplaceField,RenameField",
+    "transforms.ReplaceField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.ReplaceField.blacklist": "id",
+    "transforms.RenameField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.RenameField.renames": "status:client_status",
+    "pk.mode": "flatten",
+    "pk.fields": "client.email.email.type,client.address.address.type,client.pet.pet,root.key",
+    "flatten.pk_propagate_value_fields": "client.unusedid",
+    "flatten.rename_tables": "client-state_client:t_client, client-state_client_pet:t_client_pet,client-state_client_email:t_client_email, client-state_client_address:t_client_address",
+    "flatten.rename_fields":"client.pet.pet:pet,client.address.address.address:address, client.address.address.type:address_type,client.email.email.type:email_type,root.key:client_id, client.unusedid:not_in_use_id",
+    "flatten.coordinates": "false",
+    "flatten.uppercase": "true",
+    "insert.mode": "upsert"
+  }
+}
